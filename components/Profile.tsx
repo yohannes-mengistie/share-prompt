@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PromptCard from './PromptCard';
 import { motion } from 'framer-motion';
+import  {useRouter} from 'next/navigation';
 
 interface ProfileComponentProps {
   name: string;
@@ -24,13 +25,17 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
     post.prompt.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.tag.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const router = useRouter();
+  const handleNavigate =()=>{
+    router.push('/create-prompt')
+  }
 
   return (
     <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'
+      className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'
     >
       {/* Profile Header */}
       <div className='flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10'>
@@ -148,10 +153,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className='fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition-colors'
-        onClick={() => {
-          // Add functionality for creating new prompt
-          console.log('Create new prompt');
-        }}
+        onClick={handleNavigate}
       >
         <svg className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
           <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6v6m0 0v6m0-6h6m-6 0H6' />
