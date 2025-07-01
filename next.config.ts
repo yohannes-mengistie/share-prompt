@@ -1,7 +1,9 @@
-// next.config.js
+// next.config.ts
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import path from 'path';
+import { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -10,6 +12,16 @@ const nextConfig = {
       },
     ],
   },
+  webpack(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@models': path.resolve(__dirname, 'models'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@components': path.resolve(__dirname, 'components'),
+    };
+    return config;
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

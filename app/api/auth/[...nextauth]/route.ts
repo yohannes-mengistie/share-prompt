@@ -1,7 +1,7 @@
 import NextAuth, { Session } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { connectedToDB } from '@utils/database';
-import User from '@models/user'; 
+import User from '../../../../models/user'; 
 
 declare module "next-auth" {
   interface Session {

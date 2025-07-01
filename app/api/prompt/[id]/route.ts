@@ -1,5 +1,5 @@
-import {connectedToDB} from '@utils/database';
-import Prompt from "@models/Prompt";
+import {connectedToDB} from '../../../../utils/database';
+import Prompt from "../../../../models/Prompt";
 
 //GET(READ)
 export const GET = async (request: Request , { params }: { params: { id: string } }) => {

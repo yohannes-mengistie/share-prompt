@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/components/Nav";
-import Provider from "@/components/Provider";
+import Nav from "../components/Nav";
+import Provider from "../components/Provider";
 
 export const metadata: Metadata = {
   title: "Modern Prompt App",

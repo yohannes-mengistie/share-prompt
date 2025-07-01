@@ -2,7 +2,7 @@
 import {useState, useEffect} from 'react';
 import Image from 'next/image';
 import {useSession} from 'next-auth/react';
-import { usePathname } from '@node_modules/next/navigation';
+import { usePathname } from 'next/navigation';
 
 type PromptCardProps = {
   post: {
