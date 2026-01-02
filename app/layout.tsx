@@ -4,7 +4,7 @@ import Nav from "../components/Nav";
 import Provider from "../components/Provider";
 
 export const metadata: Metadata = {
-  title: "Modern Prompt App",
+  title: "Modern Prompt Sharing App",
   description: "A modern app to create and explore prompts",
 };
 
@@ -15,11 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-gray-50 text-gray-900 font-sans min-h-screen">
+      <body className="font-sans min-h-screen">
         <Provider>
           <div className="flex flex-col min-h-screen">
             {/* Navigation */}
-            <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md h-15">
+            <header className="fixed top-0 left-0 w-full z-50 bg-card shadow-md h-15 border-b border-border">
               <Nav />
             </header>
 
@@ -29,14 +29,14 @@ export default function RootLayout({
             </main>
 
             {/* Footer */}
-            <footer className="bg-white border-t mt-10 py-12 text-sm text-gray-700">
+            <footer className="border-t mt-10 py-12 text-sm bg-card text-muted border-border">
               <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Company */}
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">Company</h3>
+                  <h3 className="font-semibold text-fg mb-3">Company</h3>
                   <ul className="space-y-2">
                     <li>
-                      <a href="#" className="hover:text-indigo-600">
+                      <a href="#" className="hover:text-primary">
                         About Us
                       </a>
                     </li>
@@ -60,9 +60,7 @@ export default function RootLayout({
 
                 {/* Resources */}
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    Resources
-                  </h3>
+                  <h3 className="font-semibold text-fg mb-3">Resources</h3>
                   <ul className="space-y-2">
                     <li>
                       <a href="#" className="hover:text-indigo-600">
@@ -89,7 +87,7 @@ export default function RootLayout({
 
                 {/* Legal */}
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">Legal</h3>
+                  <h3 className="font-semibold text-fg mb-3">Legal</h3>
                   <ul className="space-y-2">
                     <li>
                       <a href="#" className="hover:text-indigo-600">
@@ -116,21 +114,19 @@ export default function RootLayout({
 
                 {/* Newsletter */}
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    Subscribe
-                  </h3>
-                  <p className="mb-4 text-gray-500">
+                  <h3 className="font-semibold text-fg mb-3">Subscribe</h3>
+                  <p className="mb-4 text-muted">
                     Get the latest updates right in your inbox.
                   </p>
                   <form className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="email"
                       placeholder="you@example.com"
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      className="px-3 py-2 border border-border rounded-md focus:outline-none focus:border-primary"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                      className="px-4 py-2 bg-primary text-white rounded-md hover:opacity-95"
                     >
                       Subscribe
                     </button>
@@ -139,7 +135,7 @@ export default function RootLayout({
               </div>
 
               {/* Bottom Line */}
-              <div className="mt-12 text-center text-gray-400 text-xs">
+              <div className="mt-12 text-center text-muted text-xs">
                 © {new Date().getFullYear()} PromptApp. All rights reserved.
               </div>
             </footer>

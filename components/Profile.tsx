@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import PromptCard from './PromptCard';
-import { motion } from 'framer-motion';
-import  {useRouter} from 'next/navigation';
+import { useState } from "react";
+import PromptCard from "./PromptCard";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface ProfileComponentProps {
   name: string;
@@ -16,151 +16,136 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
   desc,
   data,
   handleEdit,
-  handleDelate
+  handleDelate,
 }) => {
-  const [activeTab, setActiveTab] = useState('posts');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredPosts = data.filter(post => 
-    post.prompt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.tag.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
-  const handleNavigate =()=>{
-    router.push('/create-prompt')
-  }
+
+  const filteredPosts = data.filter(
+    (post) =>
+      post.prompt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.tag.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <motion.section 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14"
     >
-      {/* Profile Header */}
-      <div className='flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10'>
-        <div>
-          <motion.h1 
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            className='text-4xl sm:text-5xl font-bold text-gray-900'
-          >
-            <span className='bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'>
-              {name}'s Dashboard
-            </span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className='mt-3 text-lg text-gray-600 max-w-2xl'
-          >
-            {desc}
-          </motion.p>
-        </div>
+      {/* Profile Card */}
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-white/80 to-white/40 dark:from-neutral-900/80 dark:to-neutral-900/40 backdrop-blur-xl shadow-sm p-8 mb-16">
+        
+        {/* Gradient Accent */}
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500" />
 
-        {/* Search Bar */}
-        <div className='w-full md:w-auto'>
-          <div className='relative'>
-            <input
-              type='text'
-              placeholder='Search prompts...'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className='w-full md:w-64 px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all'
-            />
-            <svg
-              className='absolute right-3 top-2.5 h-5 w-5 text-gray-400'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+          {/* User Info */}
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fg">
+              {name}
+            </h1>
+            <p className="mt-3 max-w-2xl text-muted text-lg">
+              {desc}
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => router.push("/create-prompt")}
+              className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-3 font-semibold text-white shadow hover:opacity-90 transition"
             >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
-            </svg>
+              + New Prompt
+            </button>
           </div>
         </div>
+
+        {/* Stats */}
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <Stat label="Prompts" value={data.length} />
+          {/* <Stat label="Views" value="12.4K" />
+          <Stat label="Likes" value="1.2K" />
+          <Stat label="Saved" value="340" /> */}
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className='border-b border-gray-200 mb-8'>
-        <nav className='-mb-px flex space-x-8'>
-          <button
-            onClick={() => setActiveTab('posts')}
-            className={`${activeTab === 'posts' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
+      {/* Search */}
+      <div className="mb-10 flex justify-between items-center gap-4">
+        <h2 className="text-2xl font-semibold text-fg">
+          My Prompts
+        </h2>
+
+        <div className="relative w-full max-w-sm">
+          <input
+            type="text"
+            placeholder="Search prompts or tags..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-xl border border-border bg-card px-4 py-3 pr-10 text-fg placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-amber-500/30 transition"
+          />
+          <svg
+            className="absolute right-3 top-3.5 h-5 w-5 text-muted"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            My Posts
-          </button>
-          <button
-            onClick={() => setActiveTab('saved')}
-            className={`${activeTab === 'saved' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
-          >
-            Saved Posts
-          </button>
-          <button
-            onClick={() => setActiveTab('stats')}
-            className={`${activeTab === 'stats' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors`}
-          >
-            Statistics
-          </button>
-        </nav>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
       </div>
 
-      {/* Content Grid */}
+      {/* Prompt Grid */}
       {filteredPosts.length > 0 ? (
-        <motion.div 
+        <motion.div
           layout
-          className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {filteredPosts.map((post) => (
             <motion.div
               key={post._id}
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
-              <PromptCard 
+              <PromptCard
                 post={post}
-                handleEdit={() => handleEdit && handleEdit(post)}
-                handleDelate={() => handleDelate && handleDelate(post)} 
-                handleTagClick={(tag) => {
-                  setSearchQuery(tag);
-                  setActiveTab('posts');
-                }}
+                handleEdit={() => handleEdit(post)}
+                handleDelate={() => handleDelate(post)}
+                handleTagClick={(tag) => setSearchQuery(tag)}
               />
             </motion.div>
           ))}
         </motion.div>
       ) : (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className='flex flex-col items-center justify-center py-12'
-        >
-          <div className='bg-indigo-100 p-4 rounded-full mb-4'>
-            <svg className='h-12 w-12 text-indigo-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
-            </svg>
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <div className="mb-6 rounded-full bg-muted p-5">
+            <span className="text-4xl">📭</span>
           </div>
-          <h3 className='text-lg font-medium text-gray-900'>No prompts found</h3>
-          <p className='mt-1 text-gray-500'>Try adjusting your search or create a new prompt</p>
-        </motion.div>
+          <h3 className="text-xl font-semibold text-fg">
+            No prompts yet
+          </h3>
+          <p className="mt-2 text-muted max-w-sm">
+            Start creating prompts to build your personal prompt library.
+          </p>
+        </div>
       )}
-
-      {/* Floating Action Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className='fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition-colors'
-        onClick={handleNavigate}
-      >
-        <svg className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6v6m0 0v6m0-6h6m-6 0H6' />
-        </svg>
-      </motion.button>
     </motion.section>
   );
 };
 
 export default ProfileComponent;
+
+/* Small Stat Component */
+const Stat = ({ label, value }: { label: string; value: string | number }) => (
+  <div className="rounded-2xl border border-border bg-card p-4 text-center">
+    <p className="text-2xl font-bold text-fg">{value}</p>
+    <p className="mt-1 text-sm text-muted">{label}</p>
+  </div>
+);

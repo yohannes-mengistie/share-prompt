@@ -1,10 +1,9 @@
-'use client';
-import {useState,useEffect} from 'react';
-import {useSession} from 'next-auth/react';
-import {useRouter} from 'next/navigation';
-import ProfileComponent from '../../components/Profile';
-
-
+"use client";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import ProfileComponent from "../../components/Profile";
+import ThemeToggle from "../../components/ThemeToggle";
 
 type Post = {
   _id: string;
@@ -13,54 +12,61 @@ type Post = {
 
 const Profile = () => {
   const router = useRouter();
-    const handleEdit = (post: Post) => {
-      router.push(`/update-prompt?id=${post._id}`);
-    }
-    const handleDelate = async (post: Post) =>{
-      const hasConfirmed = confirm("Are you sure you want to delete this prompt?")
+  const handleEdit = (post: Post) => {
+    router.push(`/update-prompt?id=${post._id}`);
+  };
+  const handleDelate = async (post: Post) => {
+    const hasConfirmed = confirm(
+      "Are you sure you want to delete this prompt?"
+    );
 
-      if(hasConfirmed){
-        try{
-          await fetch(`/api/prompt/${post._id.toString()}` , {
-            method:'DELETE'
-          })
-          const filteredPosts = posts.filter((p) => p._id !== post._id);
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/prompt/${post._id.toString()}`, {
+          method: "DELETE",
+        });
+        const filteredPosts = posts.filter((p) => p._id !== post._id);
 
-          setPosts(filteredPosts);
-        }catch(error){
-          console.log(error)
-        }
+        setPosts(filteredPosts);
+      } catch (error) {
+        console.log(error);
       }
     }
-    const [posts, setPosts] = useState<Post[]>([])
-     
-    const {data: session} = useSession();
+  };
+  const [posts, setPosts] = useState<Post[]>([]);
 
-    useEffect(() => {
-        // Fetch initial data or perform any setup here
-        const fetchData = async () => {
-          if (!session?.user?.id) return;
+  const { data: session } = useSession();
 
-          const response = await fetch(`/api/users/${session?.user.id}/posts`);
-          const data = await response.json();
-    
-          setPosts(data);
-        };
-    
-        if(session?.user.id) { fetchData(); }
-      }, [session?.user.id]);
+  useEffect(() => {
+    // Fetch initial data or perform any setup here
+    const fetchData = async () => {
+      if (!session?.user?.id) return;
+
+      const response = await fetch(`/api/users/${session?.user.id}/posts`);
+      const data = await response.json();
+
+      setPosts(data);
+    };
+
+    if (session?.user.id) {
+      fetchData();
+    }
+  }, [session?.user.id]);
 
   return (
-    <ProfileComponent
-        name ="My"
-        desc ='Welcome to your personalized profile page. Here you can find all your posts and manage them effectively.'
-        data ={posts}
-        handleEdit = {handleEdit}
-        handleDelate ={ handleDelate}
-    /> 
-        
-    
-  )
-}
+    <>
+      <div className="w-full flex justify-end">
+        <ThemeToggle />
+      </div>
+      <ProfileComponent
+        name="My"
+        desc="Welcome to your personalized profile page. Here you can find all your posts and manage them effectively."
+        data={posts}
+        handleEdit={handleEdit}
+        handleDelate={handleDelate}
+      />
+    </>
+  );
+};
 
-export default Profile
+export default Profile;

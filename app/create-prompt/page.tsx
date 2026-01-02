@@ -35,7 +35,7 @@ const CreatePrompt = () => {
       });
 
       if (response.ok) {
-        router.push('/');
+        router.push('/dashboard');
       } else {
         const errorText = await response.text();
         console.error('Failed:', errorText);

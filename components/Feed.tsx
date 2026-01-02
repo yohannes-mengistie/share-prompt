@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import PromptCard from './PromptCard';
+import { useState, useEffect } from "react";
+import PromptCard from "./PromptCard";
 
 type Post = {
   _id: string;
@@ -24,14 +24,18 @@ const PromptCardList = ({ data, handleTagClick }: PromptCardListProps) => {
   return (
     <div className="mt-16 space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3">
       {data.map((post) => (
-        <PromptCard key={post._id} post={post} handleTagClick={handleTagClick} />
+        <PromptCard
+          key={post._id}
+          post={post}
+          handleTagClick={handleTagClick}
+        />
       ))}
     </div>
   );
 };
 
 const Feed = () => {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 
@@ -39,10 +43,11 @@ const Feed = () => {
     const value = e.target.value.toLowerCase();
     setSearchText(value);
 
-    const filtered = posts.filter((post) =>
-      post.prompt.toLowerCase().includes(value) ||
-      post.tag.toLowerCase().includes(value) ||
-      post.creator?.username?.toLowerCase().includes(value)
+    const filtered = posts.filter(
+      (post) =>
+        post.prompt.toLowerCase().includes(value) ||
+        post.tag.toLowerCase().includes(value) ||
+        post.creator?.username?.toLowerCase().includes(value)
     );
 
     setFilteredPosts(filtered);
@@ -50,7 +55,7 @@ const Feed = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/prompt');
+      const response = await fetch("/api/prompt");
       const data = await response.json();
 
       setPosts(data);
@@ -78,7 +83,7 @@ const Feed = () => {
           value={searchText}
           onChange={handleSearchChange}
           required
-          className="block w-full rounded-md border border-gray-200 bg-white py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0 peer"
+          className="block w-full rounded-md border border-border bg-card py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-primary focus:outline-none focus:ring-0 text-fg placeholder:text-muted peer"
         />
       </form>
 
