@@ -1,4 +1,7 @@
 "use client";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Feed from "../components/Feed";
 import ThemeToggle from "../components/ThemeToggle";
@@ -25,9 +28,32 @@ const features = [
 ];
 
 const Home = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirect to dashboard if user is logged in
+    if (status === "authenticated" && session?.user) {
+      router.replace("/dashboard");
+    }
+  }, [status, session, router]);
+
+  // Show loading state while checking session
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Don't render home page if user is authenticated (will redirect)
+  if (status === "authenticated") {
+    return null;
+  }
+
   return (
     <section className="relative overflow-hidden w-full flex flex-col items-center">
-
       {/* Background glow */}
       <div className="pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500/30 via-orange-500/20 to-yellow-400/30 blur-3xl" />
 
@@ -51,9 +77,9 @@ const Home = () => {
           <Link href="/login" className="rounded-xl bg-primary px-7 py-3 text-white font-semibold shadow-md hover:scale-105 transition">
             Get Started
           </Link>
-          <button className="rounded-xl border border-border px-7 py-3 font-semibold hover:bg-muted transition">
+          <Link href="/" className="rounded-xl border border-border px-7 py-3 font-semibold hover:bg-muted transition">
             Explore Prompts
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -102,11 +128,16 @@ const Home = () => {
             <Link href="/login" className="rounded-xl bg-white px-6 py-3 font-semibold text-gray-900 hover:bg-gray-100 transition">
               Get Started
             </Link>
-            <button className="rounded-xl border border-white px-6 py-3 font-semibold hover:bg-white hover:text-gray-900 transition">
+            <Link href="/" className="rounded-xl border border-white px-6 py-3 font-semibold hover:bg-white hover:text-gray-900 transition">
               Explore Prompts
-            </button>
+            </Link>
           </div>
         </div>
+      </div>
+
+      {/* Show Feed for non-authenticated users */}
+      <div className="w-full max-w-6xl mt-20 px-6">
+        <Feed />
       </div>
     </section>
   );

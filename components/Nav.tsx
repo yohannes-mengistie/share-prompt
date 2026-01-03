@@ -58,6 +58,12 @@ const Nav = () => {
             >
               Create Post
             </Link>
+            <Link
+              href="/saved"
+              className="rounded-full border border-border bg-card py-1.5 px-5 text-fg transition-all hover:opacity-95 text-center text-sm font-inter flex items-center justify-center"
+            >
+              Saved
+            </Link>
             <button
               type="button"
               onClick={() => {if(confirm("Are you sure you want to sign out?"))signOut({callbackUrl:"/"});}}
@@ -67,11 +73,11 @@ const Nav = () => {
             </button>
             <Link href="/profile" className="flex items-center justify-center">
               <Image
-                src={session?.user?.image || "/assets/icons/logo.jpg"}
+                src={session?.user?.image || "/assets/images/avater.avif"}
                 alt="Profile"
                 width={37}
                 height={37}
-                className="rounded-full object-contain"
+                className="rounded-full object-cover border-2 border-border"
               />
             </Link>
           </>
@@ -124,6 +130,13 @@ const Nav = () => {
                 >
                   Create Prompt
                 </Link>
+                <Link
+                  href="/saved"
+                  className="text-sm font-inter text-fg hover:text-primary font-medium py-2"
+                  onClick={() => setToggleDropDown(false)}
+                >
+                  Saved Prompts
+                </Link>
                 <button
                   type="button"
                   onClick={() => {
@@ -159,3 +172,10 @@ const Nav = () => {
 };
 
 export default Nav;
+
+
+
+
+
+
+

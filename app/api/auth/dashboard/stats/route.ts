@@ -3,7 +3,7 @@ import { connectedToDB } from "@utils/database";
 import { getServerSession } from "next-auth/next";
 import Prompt from "@models/Prompt";
 import User from "@models/user";
-import { authOptions } from "../../[...nextauth]/route";
+import { authOptions } from "../../config";
 
 export async function GET(req: NextRequest) {
   try {
