@@ -1,23 +1,24 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectedToDB } from "@utils/database";
-import Prompt from "../../../../../models/Prompt";
+import Prompt from "@models/Prompt";
 
-export const GET = async (
-  request: Request,
-  { params }: { params: { id: string } }
-) => {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ id: string }> }
+) {
   try {
-    // Explicitly extract id first
-    const { id } = params as { id: string };
+    const params = await props.params;
+    const { id } = params;
 
     await connectedToDB();
     const prompts = await Prompt.find({ creator: id }).populate("creator");
 
-    return new Response(JSON.stringify(prompts), {
-      status: 200,
-    });
+    return NextResponse.json(prompts, { status: 200 });
   } catch (error) {
-    return new Response("Failed to fetch all prompts", {
-      status: 500,
-    });
+    console.error("Error fetching user posts:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch user posts" },
+      { status: 500 }
+    );
   }
-};
+}
