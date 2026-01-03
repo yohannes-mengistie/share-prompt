@@ -60,7 +60,7 @@ const Nav = () => {
             </Link>
             <button
               type="button"
-              onClick={() => signOut()}
+              onClick={() => {if(confirm("Are you sure you want to sign out?"))signOut({callbackUrl:"/"});}}
               className="rounded-full border border-border bg-card py-1.5 px-5 text-fg transition-all hover:opacity-95 text-center text-sm font-inter flex items-center justify-center"
             >
               Sign Out

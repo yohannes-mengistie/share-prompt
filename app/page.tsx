@@ -1,3 +1,5 @@
+"use client";
+import Link from "next/link";
 import Feed from "../components/Feed";
 import ThemeToggle from "../components/ThemeToggle";
 
@@ -5,7 +7,7 @@ const features = [
   {
     title: "Discover Prompts",
     description:
-      "Explore high-quality AI prompts created by the community to boost your productivity and creativity.",
+      "Explore high-quality AI prompts created by the community to boost productivity and creativity.",
     icon: "🔍",
   },
   {
@@ -17,43 +19,68 @@ const features = [
   {
     title: "AI Powered",
     description:
-      "Optimized for modern AI tools like ChatGPT to deliver better and more accurate results.",
+      "Optimized for modern AI tools like ChatGPT for better, faster results.",
     icon: "🤖",
   },
 ];
 
 const Home = () => {
   return (
-    <section className="mt-10 w-full flex flex-col items-center">
-      {/* Hero */}
-      <h1 className="mt-5 text-5xl font-extrabold leading-[1.15] text-center">
-        Discover & Share
-        <br className="max-md:hidden" />
-        <span className="bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent">
-          AI-Powered Prompts
-        </span>
-      </h1>
+    <section className="relative overflow-hidden w-full flex flex-col items-center">
 
-      <p className="mt-5 text-lg sm:text-xl max-w-2xl text-center text-muted">
-        PromptVerse is an open-source AI prompting platform to discover, create,
-        and share creative prompts.
-      </p>
+      {/* Background glow */}
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500/30 via-orange-500/20 to-yellow-400/30 blur-3xl" />
+
+      {/* Hero */}
+      <div className="relative mt-24 text-center px-6 animate-fade-in">
+        <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight">
+          Discover & Share
+          <br className="hidden sm:block" />
+          <span className="bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent">
+            AI-Powered Prompts
+          </span>
+        </h1>
+
+        <p className="mt-6 text-lg sm:text-xl max-w-2xl mx-auto text-muted">
+          PromptVerse is an open-source platform to discover, create, and share
+          powerful AI prompts.
+        </p>
+
+        {/* Hero CTA */}
+        <div className="mt-10 flex justify-center gap-4">
+          <Link href="/login" className="rounded-xl bg-primary px-7 py-3 text-white font-semibold shadow-md hover:scale-105 transition">
+            Get Started
+          </Link>
+          <button className="rounded-xl border border-border px-7 py-3 font-semibold hover:bg-muted transition">
+            Explore Prompts
+          </button>
+        </div>
+      </div>
 
       {/* Feature Cards */}
-      <div className="mt-16 grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-4">
-        {features.map((feature) => (
+      <div className="relative mt-24 grid w-full max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-6">
+        {features.map((feature, i) => (
           <div
             key={feature.title}
             className="
-              rounded-2xl border border-border bg-card p-6
-              shadow-sm transition-all duration-300
-              hover:-translate-y-1 hover:shadow-lg
+              group rounded-2xl border border-white/20
+              bg-white/70 dark:bg-black/40
+              backdrop-blur-xl
+              p-6
+              shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+              hover:-translate-y-2 hover:shadow-xl
+              transition-all duration-300
             "
+            style={{ animationDelay: `${i * 100}ms` }}
           >
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-10 text-2xl">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-2xl text-white shadow">
               {feature.icon}
             </div>
-            <h3 className="text-lg font-semibold text-fg">{feature.title}</h3>
+
+            <h3 className="text-lg font-semibold text-fg">
+              {feature.title}
+            </h3>
+
             <p className="mt-2 text-sm text-muted leading-relaxed">
               {feature.description}
             </p>
@@ -61,22 +88,24 @@ const Home = () => {
         ))}
       </div>
 
-      {/* CTA */}
-      <div className="mt-24 w-full bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 py-16 text-center text-white">
-        <h2 className="text-4xl font-extrabold">
-          Ready to build better prompts?
-        </h2>
-        <p className="mt-4 text-lg opacity-90">
-          Join PromptVerse and start creating today.
-        </p>
+      {/* CTA Section */}
+      <div className="relative mt-32 w-full">
+        <div className="mx-auto max-w-6xl rounded-3xl bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 px-6 py-20 text-center text-white shadow-2xl">
+          <h2 className="text-4xl font-extrabold">
+            Ready to build better prompts?
+          </h2>
+          <p className="mt-4 text-lg opacity-90">
+            Join PromptVerse and start creating today.
+          </p>
 
-        <div className="mt-8 flex justify-center gap-4">
-          <button className="rounded-xl bg-white px-6 py-3 font-semibold text-gray-900 hover:bg-gray-100 transition">
-            Get Started
-          </button>
-          <button className="rounded-xl border border-white px-6 py-3 font-semibold hover:bg-white hover:text-gray-900 transition">
-            Explore Prompts
-          </button>
+          <div className="mt-8 flex justify-center gap-4">
+            <Link href="/login" className="rounded-xl bg-white px-6 py-3 font-semibold text-gray-900 hover:bg-gray-100 transition">
+              Get Started
+            </Link>
+            <button className="rounded-xl border border-white px-6 py-3 font-semibold hover:bg-white hover:text-gray-900 transition">
+              Explore Prompts
+            </button>
+          </div>
         </div>
       </div>
     </section>

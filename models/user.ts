@@ -24,6 +24,13 @@ const UserSchema = new Schema({
         type:String,
         required: false,
     },
+    // bookmarked prompts saved by the user
+    bookmarks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Prompt',
+        },
+    ],
 });
 
 const User = models.User || model('User', UserSchema);

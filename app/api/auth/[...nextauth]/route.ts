@@ -1,4 +1,4 @@
-import NextAuth, { Session } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -17,18 +17,13 @@ declare module "next-auth" {
   }
 }
 
-// console.log({
-//     clientId: process.env.GOOGLE_ID!,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-// });
-
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       httpOptions: {
-        timeout: 10000, // 10 seconds
+        timeout: 10000,
       },
     }),
     CredentialsProvider({
@@ -77,12 +72,10 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account, profile }) {
-      // ✅ Allow credentials login immediately
       if (account?.provider === "credentials") {
         return true;
       }
 
-      // ✅ Google login logic
       if (account?.provider === "google") {
         try {
           await connectedToDB();
@@ -111,18 +104,26 @@ const handler = NextAuth({
       return false;
     },
 
-    async session({ session }) {
-      const sessionUser = await User.findOne({
-        email: session.user?.email,
-      });
+    async session({ session, token }) {
+      if (session.user?.email) {
+        await connectedToDB();
+        const sessionUser = await User.findOne({
+          email: session.user.email,
+        }).select("_id name username email image");
 
-      if (session.user && sessionUser) {
-        session.user.id = sessionUser._id.toString();
+        if (sessionUser) {
+          session.user.id = sessionUser._id.toString();
+          session.user.name = sessionUser.name;
+          session.user.username = sessionUser.username;
+          session.user.image = sessionUser.image || null;
+        }
       }
 
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
