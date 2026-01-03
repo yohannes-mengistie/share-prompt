@@ -6,6 +6,15 @@ import Provider from "../components/Provider";
 export const metadata: Metadata = {
   title: "Modern Prompt Sharing App",
   description: "A modern app to create and explore prompts",
+  icons: {
+    icon: [
+      { url: "/assets/icons/logo.jpg", type: "image/jpeg" },
+      { url: "/assets/icons/logo.jpg", sizes: "32x32", type: "image/jpeg" },
+      { url: "/assets/icons/logo.jpg", sizes: "16x16", type: "image/jpeg" },
+    ],
+    apple: "/assets/icons/logo.jpg",
+    shortcut: "/assets/icons/logo.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -14,7 +23,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const isDark = stored ? stored === 'dark' : prefersDark;
+                  if (isDark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans min-h-screen">
         <Provider>
           <div className="flex flex-col min-h-screen">

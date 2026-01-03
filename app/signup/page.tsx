@@ -85,7 +85,7 @@ export default function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded hover:opacity-95 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 text-white py-3 rounded hover:opacity-95 disabled:opacity-50"
           >
             {loading ? "Creating..." : "Sign Up"}
           </button>

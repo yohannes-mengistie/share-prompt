@@ -3,18 +3,30 @@ import { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("theme");
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setMounted(true);
+    // Sync with the blocking script
+    const updateTheme = () => {
+      try {
+        const stored = localStorage.getItem("theme");
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const dark = stored ? stored === "dark" : prefersDark;
-      setIsDark(dark);
-      document.documentElement.classList.toggle("dark", dark);
-    } catch {}
+        const dark = stored ? stored === "dark" : prefersDark;
+        setIsDark(dark);
+        // Ensure class is set (in case script didn't run)
+        document.documentElement.classList.toggle("dark", dark);
+      } catch {}
+    };
+
+    updateTheme();
+
+    // Listen for theme changes from other tabs/windows
+    window.addEventListener("storage", updateTheme);
+    return () => window.removeEventListener("storage", updateTheme);
   }, []);
 
   const toggle = () => {
@@ -23,6 +35,13 @@ const ThemeToggle = () => {
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("theme", next ? "dark" : "light");
   };
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="relative flex h-9 w-16 items-center rounded-full border border-border bg-card" />
+    );
+  }
 
   return (
     <button
