@@ -8,8 +8,11 @@ import { Types } from "mongoose";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params;
+  const promptId = params.id;
+  
   try {
     const session = await getServerSession(authOptions);
     
@@ -18,8 +21,6 @@ export async function POST(
     }
 
     await connectedToDB();
-    
-    const promptId = params.id;
     const userId = session.user.id;
 
     // Verify prompt exists
@@ -74,8 +75,11 @@ export async function POST(
 // GET endpoint to check if prompt is bookmarked
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params;
+  const promptId = params.id;
+  
   try {
     const session = await getServerSession(authOptions);
     
@@ -84,8 +88,6 @@ export async function GET(
     }
 
     await connectedToDB();
-    
-    const promptId = params.id;
     const userId = session.user.id;
 
     const user = await User.findById(userId).select("bookmarks");
