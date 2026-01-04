@@ -33,9 +33,9 @@ const Nav = () => {
   return (
     <nav className="w-full border-b border-border bg-card">
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-1 h-16 items-center">
+        <div className="flex h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex gap-2 flex-center items-center ml-25">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src="/assets/icons/logo.jpg"
               alt="Promptopia Logo"
