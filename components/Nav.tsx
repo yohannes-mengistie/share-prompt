@@ -49,7 +49,7 @@ const Nav = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden sm:flex flex-1 justify-center items-center gap-5">
+          <div className="hidden sm:flex flex-1 justify-end items-center gap-5">
             <ThemeToggle />
 
             {session?.user ? (
