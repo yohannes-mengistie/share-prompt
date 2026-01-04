@@ -82,7 +82,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
 
   return (
     <div className="flex-1 break-inside-avoid rounded-lg border border-border bg-card-20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit">
-      <div className="flex justify-between items-start gap-5">
+      <div className="flex justify-between items-center gap-5">
         <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
           <Image
             src={post.creator.image || "/assets/images/avater.avif"}
@@ -100,7 +100,7 @@ const PromptCard: React.FC<PromptCardProps> = ({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           {/* Save/Bookmark Button */}
           {session?.user?.id && (
             <button

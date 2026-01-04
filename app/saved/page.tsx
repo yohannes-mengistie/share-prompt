@@ -135,6 +135,7 @@ const SavedPrompts = () => {
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
               >
                 <PromptCard
+                  key={post._id}
                   post={post}
                   handleTagClick={handleTagClick}
                 />
